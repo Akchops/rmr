@@ -7,6 +7,11 @@
    ============================================================ */
 
 :root {
+  /* The page commits to one dark world by design. Declaring it keeps the UA's
+     own furniture — scrollbars, the reduced-motion range control, focus rings —
+     in the same register instead of rendering light on a near-black ground. */
+  color-scheme: dark;
+
   --carbon: #090b0f;
   --carbon-lift: #0d1016;
   --graphite: #171a20;

@@ -61,6 +61,30 @@ Because the concept is private:
   site;
 - prefer an unlisted URL, and add HTTP auth if the host offers it.
 
+## Shareable preview (single file)
+
+```bash
+npm run preview:build     # → preview/morphed-preview.html
+```
+
+Produces one self-contained HTML file with the CSS, JS, fonts and images all
+embedded as data URIs, and the markup prerendered. It makes **zero external
+requests**, so it works from a file:// URL, any static host, or an environment
+that blocks outbound traffic — which is what the Artifact host requires.
+
+Two differences from `npm run build`, both deliberate:
+
+- Dynamic imports are inlined (`--mode singlefile`), so three.js loads upfront
+  instead of lazily. One file cannot code-split.
+- Only the latin font subsets are embedded; latin-ext would roughly double the
+  font payload for glyphs this page never renders.
+
+The output omits `<!doctype>`, `<html>`, `<head>` and `<body>` because the
+Artifact host supplies them. To open it standalone, wrap it in a minimal
+document — `tools/qa/preview-check.mjs` does exactly that and verifies the
+result renders, runs WebGL, loads its embedded fonts and makes no network
+requests.
+
 ## Regenerating assets
 
 Neither command is needed for a normal build; both are already committed.
@@ -172,6 +196,9 @@ node tools/qa/hydrate.mjs               # hydration mismatches
 node tools/qa/ppf.mjs --tag ppf         # scrub the PPF section through its range
 node tools/qa/ppf.mjs --nowebgl         # …with WebGL disabled
 node tools/qa/ppf.mjs --reduced         # …under prefers-reduced-motion
+
+node tools/qa/preview-check.mjs         # the single-file preview, wrapped as
+                                        # the Artifact host wraps it
 ```
 
 Screenshots are written to `.qa/<tag>/`.

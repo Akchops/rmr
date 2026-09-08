@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node tools/prerender.mjs",
     "preview": "vite preview --port 4173",
     "assets": "node tools/render-assets.mjs",
-    "fonts": "node tools/fetch-fonts.mjs"
+    "fonts": "node tools/fetch-fonts.mjs",
+    "preview:build": "node tools/build-preview.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

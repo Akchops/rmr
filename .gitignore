@@ -4,3 +4,5 @@ dist
 *.local
 .qa
 dist-ssr
+preview
+dist-preview

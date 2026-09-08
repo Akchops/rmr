@@ -1,10 +1,78 @@
 /** Link integrity, no-JS content, keyboard navigation and menu focus behaviour. */
 import { chromium } from 'playwright';
 
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join, relative } from 'node:path';
+
 const URL = 'http://localhost:4173/';
+const REPO = new global.URL('../../', import.meta.url).pathname;
 const browser = await chromium.launch();
 let fails = 0;
 const ok = (c, m) => { console.log(`  ${c ? '✓' : '✗'} ${m}`); if (!c) fails++; };
+
+/* ---------- 0. Instagram handle ----------------------------------------- */
+// The studio's Instagram handle has ONE d: morphe|detailingstudio, verified
+// 2026-09-08 from a live screenshot of the profile (10.9K followers, 85 posts).
+// The double-d spelling is a DIFFERENT, much smaller account (2,764 followers,
+// 95 posts) and must never be linked.
+//
+// What is dangerous is a *link* to that account or a *displayed handle* for it,
+// not a prose mention — docs/VERIFIED-FACTS.md has to be able to name it in
+// order to warn against it. So the scan flags the double-d token only where it
+// is preceded by "instagram.com/" or by "@", and exempts "youtube.com/@", whose
+// handle is genuinely the double-d spelling (a separate platform namespace).
+//
+// Both needles are assembled from fragments deliberately: written out literally
+// they would match this file and the check would trip over itself.
+const IG_HANDLE = 'morphe' + 'detailingstudio';
+const OTHER_ACCOUNT = 'morphed' + 'detailingstudio';
+const YT_PREFIX = 'youtube.com/@';
+
+console.log('\n[INSTAGRAM HANDLE]');
+{
+  const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'dist-ssr', '.qa']);
+  const SKIP_FILES = new Set(['package-lock.json']);
+  const TEXT = /\.(ts|tsx|js|jsx|mjs|cjs|css|html|md|json|txt|yml|yaml)$/i;
+
+  const offenders = [];
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir)) {
+      if (SKIP_DIRS.has(entry) || SKIP_FILES.has(entry)) continue;
+      const full = join(dir, entry);
+      if (statSync(full).isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (!TEXT.test(entry)) continue;
+      readFileSync(full, 'utf8')
+        .split('\n')
+        .forEach((line, i) => {
+          let from = 0;
+          for (;;) {
+            const at = line.indexOf(OTHER_ACCOUNT, from);
+            if (at === -1) break;
+            from = at + OTHER_ACCOUNT.length;
+
+            const before = line.slice(0, at);
+            if (before.endsWith(YT_PREFIX)) continue; // the real YouTube handle
+            const isLink = before.endsWith('instagram.com/');
+            const isHandle = before.endsWith('@');
+            if (isLink || isHandle) {
+              offenders.push(`${relative(REPO, full)}:${i + 1}`);
+            }
+          }
+        });
+    }
+  };
+  walk(REPO);
+
+  ok(
+    offenders.length === 0,
+    `the other account is never linked or shown as a handle${
+      offenders.length ? ' \u2014 found in ' + [...new Set(offenders)].join(', ') : ''
+    }`
+  );
+}
 
 /* ---------- 1. links ---------------------------------------------------- */
 console.log('\n[LINKS]');
@@ -32,9 +100,24 @@ console.log('\n[LINKS]');
   );
   ok(uniq.some((l) => l.href === 'tel:+917624833840'), 'tel: link correct');
   ok(uniq.some((l) => l.href === 'mailto:morpheddetailing@gmail.com'), 'mailto: link correct');
+  const IG_URL = `https://www.instagram.com/${IG_HANDLE}/`;
+  ok(uniq.some((l) => l.href === IG_URL), 'Instagram link correct');
+  // Every Instagram href must be the single-d account…
+  const igHrefs = links.filter((l) => /instagram\.com/i.test(l.href || ''));
   ok(
-    uniq.some((l) => l.href === 'https://www.instagram.com/morphedetailingstudio/'),
-    'Instagram link correct'
+    igHrefs.length > 0 && igHrefs.every((l) => (l.href || '').includes(`/${IG_HANDLE}`)),
+    `all ${igHrefs.length} instagram.com links point at the single-d account`
+  );
+  ok(
+    !links.some((l) => (l.href || '').includes(`instagram.com/${OTHER_ACCOUNT}`)),
+    'no link to the other Instagram account'
+  );
+  // …and any anchor whose visible text shows a handle must carry a matching
+  // href. A correct label over a wrong href is the failure mode here.
+  const handleLabelled = links.filter((l) => /@morphe/i.test(l.text || ''));
+  ok(
+    handleLabelled.every((l) => l.href === IG_URL),
+    `every anchor labelled with the handle links to it (${handleLabelled.length} checked)`
   );
   ok(
     uniq.some((l) => l.href === 'https://www.facebook.com/MorphedDetailingStudio/'),
@@ -129,14 +212,14 @@ console.log('\n[LINKS]');
       text: sec.textContent || '',
       igLinks: [...sec.querySelectorAll('a[href]')]
         .map((a) => a.getAttribute('href'))
-        .filter((h) => h === 'https://www.instagram.com/morphedetailingstudio/'),
+        .filter((h) => h === `https://www.instagram.com/${'morphe' + 'detailingstudio'}/`),
     };
   });
   ok(studio !== null, 'studio section present');
   const claims = [
-    'Certified car detailer',
-    'PPF, ceramic coating, detailing, sunfilms',
-    '1000+ customers trusted us with PPF',
+    'Certified Car Detailer',
+    'PPF | Ceramic Coating | Detailing | Sunfilms',
+    '10,000+ customers trusted us with PPF!',
   ];
   for (const c of claims) {
     ok((studio?.text || '').includes(c), `self-claim present: "${c}"`);
@@ -154,7 +237,10 @@ console.log('\n[LINKS]');
   // The customer figure is the studio's claim; it must never appear unattributed
   // somewhere else on the page.
   const outside = body.replace(studio?.text || '', '');
-  ok(!/1000\+/.test(outside), 'the "1000+" figure appears only inside the attributed block');
+  ok(
+    !/10,000\+/.test(outside),
+    'the "10,000+" figure appears only inside the attributed block'
+  );
   ok(
     /did not commission or approve this concept/i.test(body),
     'unofficial-concept disclaimer present'

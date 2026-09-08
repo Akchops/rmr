@@ -187,7 +187,11 @@ Screenshots are written to `.qa/<tag>/`.
   Magicpin, JustDial, Trustpilot or Yelp;
 - the Instagram self-claims lose their text, their visible attribution, or their
   link to the profile;
-- the "1000+ customers" figure appears anywhere outside the attributed block;
+- the double-d Instagram handle appears anywhere in the repository outside the
+  YouTube URL (that account is a different, much smaller one), any
+  `instagram.com` link points at it, or an anchor labelled with the handle
+  carries a href that does not match the label;
+- the "10,000+ customers" figure appears anywhere outside the attributed block;
 - any required disclosure is missing.
 
 The rating that previously ran in this section was removed on 2026-09-08 because

@@ -51,12 +51,16 @@ The page carries no third-party rating. The Magicpin 4.7 / 598 figure was
 `docs/VERIFIED-FACTS.md`, "Removed / unverified". What follows is the business's
 own public wording, presented as its claim.
 
+Transcribed from the live bio on 2026-09-08, in the bio's own order. An earlier
+draft quoted a different account's bio by mistake; see `docs/VERIFIED-FACTS.md`
+→ "Instagram handle — canonical".
+
 | Claim on page | Source | Handling |
 | --- | --- | --- |
-| "Certified car detailer" | The studio's own Instagram profile | Quoted self-description; no certifying body is named or implied |
-| "PPF, ceramic coating, detailing, sunfilms" | The studio's own Instagram profile | Quoted self-description; "sunfilms" is not added to the four service categories |
-| "1000+ customers trusted us with PPF" | The studio's own Instagram profile | Quoted self-description; the studio's figure, not an independently verified one |
-| "@morphedetailingstudio" (linked) | The studio's Instagram profile | The visible attribution, linked to the profile the claims come from |
+| "10,000+ customers trusted us with PPF!" | The studio's own Instagram bio | Quoted self-description; the studio's figure, not an independently verified one |
+| "Certified Car Detailer" | The studio's own Instagram bio | Quoted self-description; no certifying body is named or implied |
+| "PPF \| Ceramic Coating \| Detailing \| Sunfilms" | The studio's own Instagram bio | Quoted self-description; "Sunfilms" is not added to the four service categories |
+| "@morphedetailingstudio" (linked) | The studio's Instagram profile (single-d handle) | The visible attribution, linked to the profile the claims come from; QA fails if the label and href disagree |
 | "Published by the studio on its own Instagram profile. This is how Morphed describes itself — not an independent review, rating or verified figure." | Our own qualification | Rendered at 0.82rem in `--ink-dim`, directly beneath the claims |
 | Eyebrow: "04 / In the studio's own words" | — | Frames the section as self-description before the claims are read |
 
@@ -68,6 +72,8 @@ Handling notes:
 - "Certified" is the studio's word, exempted from the banned-language scan only
   inside this attributed block. The same word anywhere else on the page fails
   the QA suite.
+- The bio's leading emoji (🏆 🎖️ 🚗) are dropped; the numbered index performs the
+  same bulleting job in the page's type system. Wording is otherwise verbatim.
 - No individual review is quoted. No rating, score, star count or review total
   appears anywhere.
 
@@ -139,8 +145,8 @@ This build contains **no invented**:
 - owner, founder, team-member, technician or spokesperson identity or biography
 - business history, years in operation, or opening hours
 - statistics of our own, including vehicles completed or customer totals
-  (the "1000+ customers" figure is the studio's own attributed claim, quoted
-  from its Instagram profile, and is presented as such)
+  (the "10,000+ customers" figure is the studio's own attributed claim, quoted
+  from its Instagram bio, and is presented as such)
 - Google ratings
 - service turnaround times, free extras or complimentary services
 

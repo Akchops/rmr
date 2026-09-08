@@ -34,21 +34,28 @@ export const DIRECTIONS = `https://www.google.com/maps/search/?api=1&query=${enc
 )}`;
 
 /**
- * The studio's own public self-description, as published on its Instagram
- * profile.
+ * The studio's own public self-description, transcribed from the bio of its
+ * Instagram profile (single-d handle — see docs/VERIFIED-FACTS.md; the
+ * double-d spelling is a different, much smaller account and must never be
+ * linked).
  *
  * This is the business's claim about itself, and the page presents it that way:
  * visibly attributed, linked to the profile it came from, and never dressed up
  * as an independent review, a rating, or a verified figure. The previous
  * third-party rating was removed on 2026-09-08 — see docs/VERIFIED-FACTS.md.
+ *
+ * Order follows the live bio. The bio's leading emoji (trophy, medal, car) are
+ * dropped: the numbered index below performs the same bulleting job in the
+ * page's own type system, and emoji render inconsistently across platforms.
+ * The wording itself is unchanged.
  */
 export const SELF_CLAIMS = {
   handle: '@morphedetailingstudio',
   href: INSTAGRAM,
   items: [
-    { n: '01', text: 'Certified car detailer' },
-    { n: '02', text: 'PPF, ceramic coating, detailing, sunfilms' },
-    { n: '03', text: '1000+ customers trusted us with PPF' },
+    { n: '01', text: '10,000+ customers trusted us with PPF!' },
+    { n: '02', text: 'Certified Car Detailer' },
+    { n: '03', text: 'PPF | Ceramic Coating | Detailing | Sunfilms' },
   ],
   attribution:
     "Published by the studio on its own Instagram profile. This is how Morphed describes itself \u2014 not an independent review, rating or verified figure.",

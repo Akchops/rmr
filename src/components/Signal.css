@@ -1,0 +1,60 @@
+.signal {
+  padding: clamp(4.5rem, 12vh, 9rem) 0;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(to bottom, var(--carbon), var(--carbon-lift));
+}
+
+.signal-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+.signal-media {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 8 / 7;
+}
+.signal-media img { width: 100%; height: 100%; object-fit: cover; }
+
+.signal-body { display: grid; gap: 1.5rem; align-content: start; }
+
+/* The rating is a single large visual element, not a card. */
+.signal-rating {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.9rem, 2vw, 1.5rem);
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+.signal-value {
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 2rem + 11vw, 9.5rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+.signal-meta { display: grid; gap: 0.6rem; padding-top: 0.4rem; max-width: 30ch; }
+.signal-link {
+  font-family: var(--display);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  justify-self: start;
+  transition: border-color 0.3s var(--ease);
+}
+.signal-link:hover, .signal-link:focus-visible { border-bottom-color: var(--signal); }
+.signal-note { font-size: 0.78rem; line-height: 1.5; color: var(--ink-faint); }
+
+.signal-title { margin-top: 0.4rem; }
+.signal-lede { max-width: 44ch; }
+.signal-body .btn { justify-self: start; }
+
+@media (min-width: 900px) {
+  .signal-grid { grid-template-columns: 0.92fr 1.08fr; }
+  /* Asymmetric: the image sits low against a taller text column. */
+  .signal-media { aspect-ratio: 5 / 6; margin-top: clamp(2rem, 5vw, 4rem); }
+}

@@ -1,0 +1,23 @@
+.sticky-cta {
+  position: fixed;
+  left: var(--gutter);
+  right: var(--gutter);
+  /* Clears the browser's own bottom chrome on iOS. */
+  bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  z-index: 95;
+  display: flex;
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform 0.45s var(--ease), opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+.sticky-cta.is-on { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.sticky-cta .btn {
+  flex: 1;
+  justify-content: center;
+  box-shadow: 0 10px 40px rgba(9, 11, 15, 0.6);
+}
+
+@media (min-width: 900px) {
+  .sticky-cta { display: none; }
+}

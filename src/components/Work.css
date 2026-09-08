@@ -1,0 +1,116 @@
+.work {
+  padding: clamp(4.5rem, 12vh, 9rem) 0 clamp(3rem, 8vh, 5rem);
+  border-top: 1px solid var(--line);
+  overflow: clip;
+}
+
+.work-head { margin-bottom: clamp(2.5rem, 6vw, 4rem); max-width: 62ch; }
+.work-title { margin: 1.1rem 0 1.2rem; }
+.work-lede { max-width: 56ch; }
+
+/* Pinned stage: full viewport height and opaque, so neighbouring sections
+   cannot scroll through it while the gallery is fixed. */
+.work-stage {
+  position: relative;
+  background: var(--carbon);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  padding-block: 1rem;
+}
+
+.work-viewport { position: relative; }
+
+.work-track {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.4vw, 2.2rem);
+  padding-inline: calc(var(--gutter) + var(--rail)) var(--gutter);
+  /* Mobile default: native horizontal swipe with snapping. */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+  padding-bottom: 1rem;
+}
+
+.work-fig {
+  margin: 0;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  /* One width and one ratio on mobile so the swipe row has an even baseline. */
+  width: min(78vw, 420px);
+}
+
+.work-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--graphite);
+  border: 1px solid var(--line);
+  aspect-ratio: 4 / 5;
+}
+
+.work-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 0.5s var(--ease);
+  will-change: transform;
+}
+
+.work-slot {
+  position: absolute;
+  top: 0; left: 0;
+  padding: 0.45rem 0.7rem;
+  background: rgba(9, 11, 15, 0.8);
+  color: var(--signal);
+  letter-spacing: 0.2em;
+}
+
+.work-cap {
+  display: grid;
+  gap: 0.4rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+  margin-top: 0.85rem;
+}
+.work-surface { color: var(--titanium); letter-spacing: 0.18em; }
+.work-intended { font-size: 0.82rem; color: var(--ink-faint); }
+.work-intended b { color: var(--ink-dim); font-weight: 500; }
+
+.work-end {
+  flex: 0 0 auto;
+  width: min(80vw, 380px);
+  align-self: center;
+  display: grid;
+  gap: 1.4rem;
+  padding-left: clamp(0.5rem, 2vw, 2rem);
+}
+.work-end-title { max-width: 16ch; }
+.work-end .btn { justify-self: start; }
+
+.work-hint { color: var(--ink-faint); }
+
+@media (min-width: 900px) {
+  .work-stage { height: 100svh; }
+  .work-track {
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+    will-change: transform;
+  }
+  /* Scale and crop only vary once there is room for the rhythm to read. */
+  .work-fig { width: 32vw; max-width: 460px; }
+  .work-fig.is-wide { width: 40vw; max-width: 600px; }
+  .work-fig.is-wide .work-frame { aspect-ratio: 16 / 11; }
+  /* Vary the vertical rhythm so the row is not a flat conveyor belt. */
+  .work-fig:nth-child(2n) { margin-top: clamp(2rem, 6vw, 5rem); }
+  .work-fig:nth-child(3n) { margin-top: clamp(1rem, 3vw, 2.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-frame img { transition: none; }
+}

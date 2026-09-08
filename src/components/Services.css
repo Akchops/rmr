@@ -1,0 +1,123 @@
+.svc { padding: clamp(4.5rem, 12vh, 9rem) 0; border-top: 1px solid var(--line); }
+
+.svc-head { margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.svc-title { margin-top: 1.1rem; }
+
+.svc-grid { display: grid; gap: clamp(1.75rem, 4vw, 3rem); }
+
+/* ---- index ------------------------------------------------------------- */
+.svc-list { display: grid; border-top: 1px solid var(--line); }
+
+.svc-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 68px;
+  padding: 1.15rem 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.35s var(--ease);
+}
+/* Accent bar wipes in from the left on the active row. */
+.svc-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--signal);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s var(--ease-mech);
+}
+.svc-item.is-active { color: var(--white); }
+.svc-item.is-active::before { transform: scaleY(1); transform-origin: top; }
+
+.svc-n {
+  font-family: var(--display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  padding-left: 0.9rem;
+  transition: color 0.35s var(--ease);
+}
+.svc-item.is-active .svc-n { color: var(--signal); }
+
+.svc-name {
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 0.9rem + 1.2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.svc-mark {
+  width: 22px; height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transition: width 0.4s var(--ease-mech), opacity 0.35s var(--ease);
+}
+.svc-item.is-active .svc-mark { width: 42px; opacity: 1; background: var(--signal); }
+
+/* ---- media ------------------------------------------------------------- */
+.svc-media {
+  position: relative;
+  /* Landscape in the single-column stack: a portrait frame at full width eats
+     the entire viewport on a tablet and separates the list from its copy. */
+  aspect-ratio: 4 / 3;
+  max-height: 60svh;
+  overflow: hidden;
+  background: var(--graphite);
+  border: 1px solid var(--line);
+}
+.svc-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* Directional panel wipe: the new surface arrives across the frame. */
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 0.72s var(--ease-mech);
+  will-change: clip-path;
+}
+.svc-img.is-active { clip-path: inset(0 0 0 0); }
+
+.svc-media-tag {
+  position: absolute;
+  left: 0; bottom: 0;
+  padding: 0.55rem 0.85rem;
+  background: rgba(9, 11, 15, 0.78);
+  color: var(--titanium);
+  letter-spacing: 0.2em;
+}
+
+/* ---- detail ------------------------------------------------------------ */
+.svc-detail { display: grid; align-content: start; gap: 1.4rem; }
+.svc-panel-n { color: var(--signal); margin-bottom: 0.7rem; }
+.svc-body {
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.15rem);
+  color: var(--ink-dim);
+  max-width: 42ch;
+}
+.svc-cta { justify-self: start; }
+
+@media (min-width: 900px) {
+  .svc-grid {
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.05fr) minmax(240px, 0.8fr);
+    align-items: start;
+  }
+  .svc-media { aspect-ratio: 3 / 4; max-height: none; position: sticky; top: 6rem; }
+  .svc-detail { padding-top: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-img { transition: opacity 0.2s linear; clip-path: none; opacity: 0; }
+  .svc-img.is-active { opacity: 1; }
+}

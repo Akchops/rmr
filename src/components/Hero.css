@@ -1,0 +1,124 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 7rem 0 1.5rem;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  will-change: clip-path;
+}
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep the crease out of the type: bias the crop toward the upper right. */
+  object-position: 68% 38%;
+  transform: scale(1.05);
+  will-change: transform;
+}
+
+/* Narrow specular bar travelling across the paint.
+
+   The gradient runs left-to-right, matching the element's own edges, so the
+   transparent stops land exactly on them. An angled gradient cuts a visible
+   colour through the vertical edges instead, leaving a hard seam parked on the
+   image. The diagonal look comes from a skew that GSAP carries through the
+   travel. */
+.hero-sweep {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 22%;
+  height: 140%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(233, 240, 255, 0.05) 30%,
+    rgba(240, 246, 255, 0.17) 50%,
+    rgba(233, 240, 255, 0.05) 70%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 8%;
+  right: 6%;
+  width: min(46vw, 620px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(120, 150, 200, 0.13), transparent 66%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Anchors the type against the surface without flattening the image. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(9, 11, 15, 0.94) 0%, rgba(9, 11, 15, 0.62) 34%, rgba(9, 11, 15, 0.12) 62%, rgba(9, 11, 15, 0.34) 100%),
+    linear-gradient(to right, rgba(9, 11, 15, 0.82) 0%, rgba(9, 11, 15, 0.28) 46%, transparent 74%);
+  pointer-events: none;
+}
+
+.hero-body { position: relative; width: 100%; }
+
+.hero-eyebrow { display: block; overflow: hidden; margin-bottom: 1.4rem; }
+
+.hero-title { margin: 0; max-width: 16ch; }
+.hero-line { display: block; overflow: hidden; padding-bottom: 0.04em; }
+.hero-line > span { display: block; will-change: transform; }
+
+.hero-rule {
+  display: block;
+  width: min(100%, 620px);
+  margin: clamp(1.5rem, 3vw, 2.4rem) 0 clamp(1.1rem, 2vw, 1.6rem);
+  transform-origin: left;
+  background: linear-gradient(to right, var(--line-strong), transparent);
+}
+
+.hero-sub { max-width: 40ch; }
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.hero-meta { margin-top: 1.4rem; letter-spacing: 0.26em; }
+
+.hero-foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(2rem, 6vh, 4rem);
+}
+.hero-foot-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--line), transparent);
+}
+
+@media (min-width: 900px) {
+  .hero { padding-bottom: 2.5rem; }
+  .hero-title { max-width: 14ch; }
+}
+
+/* Very narrow screens: keep the headline from stranding single words. */
+@media (max-width: 380px) {
+  .hero-title { font-size: clamp(2.1rem, 9.5vw, 2.6rem); }
+}

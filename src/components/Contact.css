@@ -1,0 +1,110 @@
+.contact { padding: clamp(4.5rem, 12vh, 9rem) 0; border-top: 1px solid var(--line); }
+
+.contact-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+
+.contact-title { margin: 1.1rem 0 1.6rem; }
+
+.contact-address {
+  display: grid;
+  gap: 0.15rem;
+  font-style: normal;
+  font-size: clamp(1rem, 0.95rem + 0.4vw, 1.2rem);
+  color: var(--ink-dim);
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.contact-list {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.6rem 0 2rem;
+}
+.contact-list div { display: grid; gap: 0.35rem; }
+.contact-list dt { color: var(--ink-faint); }
+.contact-list dd { margin: 0; }
+.contact-list a {
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 2px;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  word-break: break-word;
+}
+.contact-list a:hover, .contact-list a:focus-visible {
+  color: var(--signal);
+  border-bottom-color: var(--signal);
+}
+
+.contact-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+
+/* ---- location plot ------------------------------------------------------ */
+.contact-plot {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 4 / 3;
+  text-decoration: none;
+  isolation: isolate;
+}
+.contact-plot img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+}
+.contact-plot:hover img, .contact-plot:focus-visible img {
+  opacity: 0.78;
+  transform: scale(1.03);
+}
+
+/* Survey-grid overlay: a technical treatment, not a fake map. */
+.contact-plot-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(to right, var(--line-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line-strong) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at 50% 45%, #000 30%, transparent 78%);
+}
+.contact-plot-pin {
+  position: absolute;
+  z-index: 2;
+  left: 50%; top: 45%;
+  width: 12px; height: 12px;
+  transform: translate(-50%, -50%);
+  background: var(--signal);
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(215, 255, 53, 0.16), 0 0 0 16px rgba(215, 255, 53, 0.07);
+}
+.contact-plot-label {
+  position: absolute;
+  z-index: 2;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(to top, rgba(9, 11, 15, 0.94), transparent);
+}
+.contact-plot-cta {
+  font-family: var(--display);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+@media (min-width: 900px) {
+  .contact-grid { grid-template-columns: 1.1fr 0.9fr; }
+  .contact-plot { position: sticky; top: 6rem; aspect-ratio: 3 / 4; }
+}

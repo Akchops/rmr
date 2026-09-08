@@ -16,25 +16,48 @@
 
 .signal-body { display: grid; gap: 1.5rem; align-content: start; }
 
-/* The rating is a single large visual element, not a card. */
-.signal-rating {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(0.9rem, 2vw, 1.5rem);
-  padding-bottom: 1.4rem;
+/* Credibility band: the studio's own claims, as a ruled index rather than a
+   display numeral. The weight comes from the typographic system, not from
+   dressing a number up as a credential. */
+.claims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+.claim {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  padding: clamp(0.85rem, 2vw, 1.15rem) 0;
   border-bottom: 1px solid var(--line);
 }
-.signal-value {
+.claim-n {
   font-family: var(--display);
-  font-size: clamp(4.5rem, 2rem + 11vw, 9.5rem);
-  font-weight: 700;
-  line-height: 0.8;
-  letter-spacing: -0.06em;
-  color: var(--white);
-  font-variant-numeric: tabular-nums;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--signal);
 }
-.signal-meta { display: grid; gap: 0.6rem; padding-top: 0.4rem; max-width: 30ch; }
-.signal-link {
+.claim-text {
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 0.9rem + 0.75vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-wrap: balance;
+}
+
+.claims-src {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: -0.4rem;
+  max-width: 52ch;
+}
+.claims-link {
   font-family: var(--display);
   font-size: 0.76rem;
   font-weight: 600;
@@ -46,10 +69,16 @@
   justify-self: start;
   transition: border-color 0.3s var(--ease);
 }
-.signal-link:hover, .signal-link:focus-visible { border-bottom-color: var(--signal); }
-.signal-note { font-size: 0.78rem; line-height: 1.5; color: var(--ink-faint); }
+.claims-link:hover, .claims-link:focus-visible { border-bottom-color: var(--signal); }
+/* Readable, not fine print: this qualification is the point of the section. */
+.claims-note { font-size: 0.82rem; line-height: 1.55; color: var(--ink-dim); }
 
-.signal-title { margin-top: 0.4rem; }
+.signal-title {
+  margin-top: 0.6rem;
+  /* Below the page's h-lg default: this headline shares a column with the
+     claims band, and at full h-lg scale its three authored lines break to four. */
+  font-size: clamp(1.9rem, 1.1rem + 2.9vw, 3.4rem);
+}
 .signal-lede { max-width: 44ch; }
 .signal-body .btn { justify-self: start; }
 

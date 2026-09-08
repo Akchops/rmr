@@ -1,6 +1,20 @@
-import { RATING, WHATSAPP } from '../data/site';
+import { SELF_CLAIMS, WHATSAPP } from '../data/site';
 import './Signal.css';
 
+/**
+ * Services-credibility band.
+ *
+ * This section previously carried a third-party numeric rating. That figure
+ * could not be re-verified, so it was removed outright rather than softened or
+ * dated — an unverifiable number on a page the owner shows customers is his
+ * liability, not a credential.
+ *
+ * What replaces it is the studio's own public self-description, presented as
+ * exactly that: the business's claim, attributed in plain sight and linked to
+ * the profile it came from. It is deliberately NOT set in the display-numeral
+ * treatment the rating used, because that styling reads as an independent
+ * credential.
+ */
 export default function Signal() {
   return (
     <section className="signal" id="studio">
@@ -20,22 +34,35 @@ export default function Signal() {
 
         <div className="signal-body">
           <p className="eyebrow">
-            <span className="on">04</span> / Review signal
+            <span className="on">04</span> / In the studio&rsquo;s own words
           </p>
 
-          <div className="signal-rating">
-            <span className="signal-value">{RATING.value}</span>
-            <span className="signal-meta">
-              <a href={RATING.href} target="_blank" rel="noopener noreferrer" className="signal-link">
-                {RATING.count} online ratings on {RATING.source}
-                <span className="btn-arrow" aria-hidden="true"> ↗</span>
-              </a>
-              <span className="signal-note">
-                Third-party rating observed during concept research. Verify current listing before
-                official launch.
+          <ul className="claims">
+            {SELF_CLAIMS.items.map((c) => (
+              <li className="claim" key={c.n}>
+                <span className="claim-n" aria-hidden="true">
+                  {c.n}
+                </span>
+                <span className="claim-text">{c.text}</span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="claims-src">
+            <a
+              className="claims-link"
+              href={SELF_CLAIMS.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {SELF_CLAIMS.handle}
+              <span className="btn-arrow" aria-hidden="true">
+                {' '}
+                ↗
               </span>
-            </span>
-          </div>
+            </a>
+            <span className="claims-note">{SELF_CLAIMS.attribution}</span>
+          </p>
 
           <h2 className="h-lg signal-title">
             Your vehicle.

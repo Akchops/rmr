@@ -19,8 +19,6 @@ export const FACEBOOK = 'https://www.facebook.com/MorphedDetailingStudio/';
 export const YOUTUBE = 'https://www.youtube.com/@morpheddetailingstudio';
 export const DETAILERS_IN =
   'https://www.detailers.in/listing/morphed-detailing-studio/';
-export const MAGICPIN =
-  'https://magicpin.in/Bangalore/Kurubarahalli/Autocare/Morphed-Detailing-Studio-Paint-Protection-Film-Ppf-and-Ceramic-Coating-Studio./store/26a3a82';
 
 export const ADDRESS_LINES = [
   '31 Ground Floor',
@@ -35,12 +33,25 @@ export const DIRECTIONS = `https://www.google.com/maps/search/?api=1&query=${enc
   `Morphed Detailing Studio, 31 Ground Floor, Pipeline Road, KHBS Layout, Bengaluru, Karnataka 560086`
 )}`;
 
-/** Third-party rating observed on Magicpin during concept research. */
-export const RATING = {
-  value: '4.7',
-  count: '598',
-  source: 'Magicpin',
-  href: MAGICPIN,
+/**
+ * The studio's own public self-description, as published on its Instagram
+ * profile.
+ *
+ * This is the business's claim about itself, and the page presents it that way:
+ * visibly attributed, linked to the profile it came from, and never dressed up
+ * as an independent review, a rating, or a verified figure. The previous
+ * third-party rating was removed on 2026-09-08 — see docs/VERIFIED-FACTS.md.
+ */
+export const SELF_CLAIMS = {
+  handle: '@morphedetailingstudio',
+  href: INSTAGRAM,
+  items: [
+    { n: '01', text: 'Certified car detailer' },
+    { n: '02', text: 'PPF, ceramic coating, detailing, sunfilms' },
+    { n: '03', text: '1000+ customers trusted us with PPF' },
+  ],
+  attribution:
+    "Published by the studio on its own Instagram profile. This is how Morphed describes itself \u2014 not an independent review, rating or verified figure.",
 };
 
 export type Service = {

@@ -45,10 +45,10 @@ https://wa.me/917624833840?text=Hi%20Morphed%20Detailing%20Studio%2C%20I%27d%20l
 | Facebook | https://www.facebook.com/MorphedDetailingStudio/ |
 | YouTube | https://www.youtube.com/@morpheddetailingstudio |
 | Detailers India listing | https://www.detailers.in/listing/morphed-detailing-studio/ |
-| Magicpin listing | https://magicpin.in/Bangalore/Kurubarahalli/Autocare/Morphed-Detailing-Studio-Paint-Protection-Film-Ppf-and-Ceramic-Coating-Studio./store/26a3a82 |
 
 Instagram, Facebook and YouTube are linked from the page. Detailers India is
-recorded here for provenance but is not linked from the page.
+recorded here for provenance but is not linked from the page. The Magicpin
+listing is no longer treated as a source — see **Removed / unverified** below.
 
 ## Directions link
 
@@ -73,20 +73,61 @@ and route the visitor to WhatsApp for anything specific.
 
 The page does not claim every service is available for every vehicle.
 
-## Third-party rating
+## The studio's own self-description
 
-| Field | Value |
+Published by Morphed on its own Instagram profile. This is the **business's
+claim about itself**, not independent verification, and the page presents it
+that way: visibly attributed, linked to the profile, and set in body-scale type
+rather than a display numeral, so it cannot read as a third-party credential.
+
+| Claim | Source |
+| --- | --- |
+| "Certified car detailer" | Instagram profile — the studio's own wording |
+| "PPF, ceramic coating, detailing, sunfilms" | Instagram profile |
+| "1000+ customers trusted us with PPF" | Instagram profile |
+
+Attribution rendered on the page: *"Published by the studio on its own Instagram
+profile. This is how Morphed describes itself — not an independent review,
+rating or verified figure."* Linked to
+https://www.instagram.com/morphedetailingstudio/.
+
+Notes for launch:
+
+- **"Certified"** is the studio's word. No certifying body, standard or
+  credential is named anywhere, and none should be added without documentation.
+- **"Sunfilms"** appears only inside this quoted self-description. It is
+  deliberately **not** added to the four service categories in the services
+  section, which stay as the profiles support them.
+- **"1000+ customers"** is the studio's own figure. It is not independently
+  verified and is not presented as though it were.
+
+## Removed / unverified
+
+### Magicpin rating — removed 2026-09-08
+
+| Field | Former value |
 | --- | --- |
 | Value | 4.7 |
 | Count | 598 online ratings |
-| Source | Magicpin |
-| Presented as | "598 online ratings on Magicpin" |
-| Linked to | The Magicpin listing above |
+| Claimed source | Magicpin |
+| Former listing URL | https://magicpin.in/Bangalore/Kurubarahalli/Autocare/Morphed-Detailing-Studio-Paint-Protection-Film-Ppf-and-Ceramic-Coating-Studio./store/26a3a82 |
 
-Observed during concept research. It is attributed to Magicpin visibly and in
-the link, and is **never** presented as a Google rating. The page carries a
-visible note: *"Third-party rating observed during concept research. Verify
-current listing before official launch."*
+**Reason for removal:** the figure could not be re-verified. A fresh search did
+not surface the Magicpin listing at all, so neither the rating nor the listing's
+continued existence could be confirmed.
+
+**Decision:** removed outright — the number, the attribution line, the source
+link and the re-verify note. It was not softened, dated, or moved to smaller
+type. An unverifiable third-party number on a page the owner shows customers is
+a liability for him, not a credential.
+
+`tools/qa/functional.mjs` now fails if any numeric third-party rating reappears
+anywhere in the rendered page, in any wording — including a score split across
+elements — and fails if the Instagram self-claims lose their attribution or
+their link.
+
+Do not reinstate this rating unless the live Magicpin listing is found again and
+the figures are read directly off it on the day of launch.
 
 ## Unresolved
 
@@ -101,10 +142,14 @@ discounts, packages, warranty periods, lifetime protection, guarantees,
 self-healing or scratch-proof performance, film thickness, durability figures,
 hydrophobic statistics, product partnerships, authorised-dealer status,
 certifications, awards, years in business, vehicles completed, customer totals,
-client names, testimonials or review quotations, Google ratings,
-before-and-after results, business history, service turnaround times, free
-extras, complimentary services, insurance or manufacturer approvals, and
-opening hours.
+client names, testimonials or review quotations, Google ratings, any
+third-party rating, before-and-after results, business history, service
+turnaround times, free extras, complimentary services, insurance or
+manufacturer approvals, and opening hours.
+
+The only figure on the page is "1000+ customers", which is the studio's own
+attributed claim rather than one we assert — see the self-description section
+above.
 
 Branded materials, products or vehicles appearing in the studio's social posts
 were **not** treated as evidence of any official partnership.

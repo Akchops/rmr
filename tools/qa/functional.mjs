@@ -40,7 +40,10 @@ console.log('\n[LINKS]');
     uniq.some((l) => l.href === 'https://www.facebook.com/MorphedDetailingStudio/'),
     'Facebook link correct'
   );
-  ok(uniq.some((l) => l.href.includes('magicpin.in')), 'Magicpin rating link present');
+  ok(
+    !uniq.some((l) => /magicpin|justdial|trustpilot|yelp/i.test(l.href || '')),
+    'no third-party review-site link anywhere on the page'
+  );
   ok(
     uniq.some((l) => l.href.includes('google.com/maps/search/') && l.href.includes('560086')),
     'Directions link built from the verified address'
@@ -53,16 +56,105 @@ console.log('\n[LINKS]');
   /* ---------- 2. factual guardrails ------------------------------------- */
   console.log('\n[FACTS]');
   const body = (await page.textContent('body')) || '';
+
+  // The studio's own attributed self-description is exempt from the banned-word
+  // scan: "certified" is prohibited as our assertion, permitted as their quoted
+  // claim. Everything outside this block is still held to the full list.
+  const attributedParts = await page.evaluate(() => {
+    const sec = document.getElementById('studio');
+    if (!sec) return [];
+    return [...sec.querySelectorAll('.claims, .claims-src')].map((n) => n.textContent || '');
+  });
+  ok(attributedParts.length > 0, 'attributed self-claims block found');
+  const attributed = attributedParts.join(' ');
+  // Cut each block out separately: body.textContent concatenates them with no
+  // separator, so removing the joined string would never match.
+  let unattributed = body;
+  for (const part of attributedParts) unattributed = unattributed.split(part).join(' ');
+
   const banned = [
     'warranty', 'guarantee', 'lifetime', 'self-healing', 'scratch-proof',
     'award', 'certified', 'authorised dealer', 'authorized dealer',
     'years of experience', 'best in', 'number one', 'testimonial',
     'before and after result', '₹', 'microns', 'micron',
   ];
-  const hits = banned.filter((b) => new RegExp(b, 'i').test(body));
-  ok(hits.length === 0, `no prohibited claim language${hits.length ? ' — found: ' + hits : ''}`);
-  ok(/4\.7/.test(body) && /598/.test(body) && /Magicpin/i.test(body), 'rating attributed to Magicpin');
-  ok(!/google rating/i.test(body), 'rating never presented as a Google rating');
+  const hits = banned.filter((b) => new RegExp(b, 'i').test(unattributed));
+  ok(
+    hits.length === 0,
+    `no prohibited claim language outside the attributed block${hits.length ? ' \u2014 found: ' + hits : ''}`
+  );
+  // …and the exemption must not become a loophole: the claims block may only
+  // contain the three sanctioned lines plus their attribution.
+  ok(
+    !/warrant|guarantee|lifetime|self-heal|scratch-proof|award|micron|₹/i.test(attributed),
+    'attributed block itself carries no prohibited claim'
+  );
+
+  /* ---- no third-party rating may reappear ------------------------------ */
+  // The Magicpin 4.7 / 598 figure could not be re-verified (2026-09-08) and was
+  // removed. These patterns fail the build if any numeric third-party rating
+  // finds its way back into the markup, in any wording.
+  const html = await page.content();
+  // Also scan with tags stripped: a score split across elements
+  // (`<span>4.9</span> out of 5`) reads as plain text to a visitor but not to a
+  // pattern run over raw markup. The removed rating was structured exactly so.
+  const stripped = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  const haystacks = [html, stripped];
+  const ratingPatterns = [
+    [/\b\d(?:[.,]\d)?\s*(?:\/|out\s+of)\s*5\b/i, 'an "N/5" or "N out of 5" score'],
+    [/\b\d[\d,]*\s+(?:online\s+|verified\s+|google\s+)?(?:ratings|reviews)\b/i, 'a count of ratings/reviews'],
+    [/\b(?:rated|rating|reviews?)\b[^.<>]{0,24}\b\d(?:[.,]\d)\b/i, 'a numeric rating phrase'],
+    [/\b\d(?:[.,]\d)?\s*(?:★|stars?\b)/i, 'a star score'],
+    [/\bmagicpin\b/i, 'a Magicpin reference'],
+    [/\bjustdial\b/i, 'a JustDial reference'],
+    [/\btrustpilot\b/i, 'a Trustpilot reference'],
+    [/\bgoogle\s+(?:rating|review|star)/i, 'a Google rating reference'],
+    [/\b4\.7\b/, 'the removed 4.7 figure'],
+    [/\b598\b/, 'the removed 598 figure'],
+  ];
+  const reappeared = ratingPatterns
+    .filter(([re]) => haystacks.some((h) => re.test(h)))
+    .map(([, label]) => label);
+  ok(
+    reappeared.length === 0,
+    `no third-party rating in the markup${reappeared.length ? ' — found ' + reappeared.join('; ') : ''}`
+  );
+  ok(!/google rating/i.test(body), 'no Google rating reference');
+
+  /* ---- the studio's own claims stay attributed and linked --------------- */
+  const studio = await page.evaluate(() => {
+    const sec = document.getElementById('studio');
+    if (!sec) return null;
+    return {
+      text: sec.textContent || '',
+      igLinks: [...sec.querySelectorAll('a[href]')]
+        .map((a) => a.getAttribute('href'))
+        .filter((h) => h === 'https://www.instagram.com/morphedetailingstudio/'),
+    };
+  });
+  ok(studio !== null, 'studio section present');
+  const claims = [
+    'Certified car detailer',
+    'PPF, ceramic coating, detailing, sunfilms',
+    '1000+ customers trusted us with PPF',
+  ];
+  for (const c of claims) {
+    ok((studio?.text || '').includes(c), `self-claim present: "${c}"`);
+  }
+  ok((studio?.igLinks.length || 0) > 0, 'self-claims linked to the Instagram profile');
+  ok(/instagram/i.test(studio?.text || ''), 'Instagram named as the source in visible text');
+  ok(
+    /not an independent review, rating or verified figure/i.test(studio?.text || ''),
+    'self-claims carry the "not independent" qualification'
+  );
+  ok(
+    /published by the studio on its own/i.test(studio?.text || ''),
+    'self-claims are attributed to the studio itself'
+  );
+  // The customer figure is the studio's claim; it must never appear unattributed
+  // somewhere else on the page.
+  const outside = body.replace(studio?.text || '', '');
+  ok(!/1000\+/.test(outside), 'the "1000+" figure appears only inside the attributed block');
   ok(
     /did not commission or approve this concept/i.test(body),
     'unofficial-concept disclaimer present'

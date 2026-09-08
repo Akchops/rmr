@@ -176,8 +176,20 @@ node tools/qa/ppf.mjs --reduced         # …under prefers-reduced-motion
 
 Screenshots are written to `.qa/<tag>/`.
 
-`functional.mjs` also acts as a factual guard: it fails if prohibited claim
-language (warranty, guarantee, lifetime, self-healing, scratch-proof, awards,
-certifications, prices, micron figures, testimonials…) appears in the rendered
-page, if the rating is not attributed to Magicpin, or if any required disclosure
-is missing.
+`functional.mjs` also acts as a factual guard. It fails if:
+
+- prohibited claim language (warranty, guarantee, lifetime, self-healing,
+  scratch-proof, awards, certifications, prices, micron figures, testimonials…)
+  appears **outside** the studio's attributed self-claims block — and separately
+  if any of it appears **inside** that block;
+- any numeric third-party rating reappears in the rendered page, in any wording,
+  including one split across elements (`<span>4.9</span> out of 5`) or a link to
+  Magicpin, JustDial, Trustpilot or Yelp;
+- the Instagram self-claims lose their text, their visible attribution, or their
+  link to the profile;
+- the "1000+ customers" figure appears anywhere outside the attributed block;
+- any required disclosure is missing.
+
+The rating that previously ran in this section was removed on 2026-09-08 because
+it could not be re-verified. See `docs/VERIFIED-FACTS.md` → "Removed /
+unverified" before considering reinstating anything like it.

@@ -1,5 +1,19 @@
 # ASSET-MANIFEST
 
+## Photo swap attempted 2026-09-08 — no files received
+
+A round of work was requested to replace the reserved slots with Morphed's own
+photography, downloaded manually and uploaded into the project. **No image files
+were present in the environment when that work ran.** Checked: the repository
+working tree (clean), the whole filesystem, and the remote branch (no new
+commits). The only images on disk were this project's own rendered assets and
+render diagnostics.
+
+Nothing was fetched from the blocked domains, and no substitute imagery was
+introduced. Every slot below therefore remains reserved, and the gallery, hero
+and PPF sections are unchanged. See "What to upload" at the end of this file for
+the shot list.
+
 ## Status of this build: no Morphed photography is used
 
 **Every one of the studio's own image sources is unreachable from the build
@@ -106,3 +120,46 @@ treatment of **MORPHED** in Space Grotesk (see `.nav-mark` in
 Downloaded by `tools/fetch-fonts.mjs` into `public/fonts/` (latin + latin-ext
 subsets only). Self-hosting is permitted by the OFL. Nothing is requested from a
 third-party domain at runtime.
+
+
+## What to upload
+
+For the next attempt, drop the files anywhere in the repository (a top-level
+`uploads/` directory is easiest) and say so. Useful per file: which post it came
+from, and the vehicle if it is not obvious.
+
+**Minimum usable pixel dimensions.** Instagram exports are typically 1080px on
+the long edge, which is fine for gallery frames but marginal for full-bleed use.
+
+| Use | Minimum long edge | Preferred |
+| --- | --- | --- |
+| Hero (full-bleed, up to 1728px viewport at 2× DPR) | 2000px | 2400px+ |
+| PPF shader source | 1600px | 2048px+ |
+| Gallery frame (wide) | 1400px | 1600px |
+| Gallery frame (tall) | 1100px | 1200px |
+| Service panel | 1100px | 1400px |
+| Review-signal / contact | 1200px | 1600px |
+
+An image below the minimum keeps its reserved slot rather than being upscaled.
+
+**The PPF shader source is the most specific requirement.** The shader runs a
+travelling film front across the surface, and the front only reads if the
+surface has continuous, legible reflection structure across the whole frame.
+What to shoot:
+
+- A macro or near-macro of a single glossy painted panel — a door, bonnet or
+  front wing filling the frame. **Not** a wide shot of a whole car: at that
+  scale the film front crosses too much unrelated detail to read as a layer.
+- Visible curvature: a swage line, crease or shoulder running through the frame,
+  so the front bends over real geometry.
+- Long soft reflections from the studio lighting — the streaks that read as
+  clearcoat. Avoid flat, evenly-lit matte-looking paint.
+- A shut line or panel gap somewhere in frame is a strong bonus; it anchors the
+  image as automotive.
+- Mid-tone paint holds the effect best. Very dark paint photographs as near-black
+  and leaves the front nothing to act on — the current rendered study was
+  re-lit twice for exactly this reason.
+- No people, plates or badges in focus.
+
+If nothing in the upload meets that, the section keeps the rendered study
+`ppf-panel`, which was authored to these constraints.

@@ -2,7 +2,10 @@
 
 Every factual or potentially commercial statement rendered on the page, with its
 source. Verified against the built page by `tools/qa/functional.mjs`, which
-fails the build check if prohibited claim language appears.
+fails if prohibited claim language appears outside the attributed self-claims
+block, if any numeric third-party rating reappears anywhere in the rendered
+markup (including one split across elements), or if the self-claims lose their
+attribution or their link.
 
 ## Identity and location
 
@@ -41,15 +44,32 @@ every one routes specifics to the studio.
 Section heading "Four ways the studio works on a surface" states only the number
 of listed service categories.
 
-## Rating
+## The studio's own self-description
+
+The page carries no third-party rating. The Magicpin 4.7 / 598 figure was
+**removed on 2026-09-08** because it could not be re-verified — see
+`docs/VERIFIED-FACTS.md`, "Removed / unverified". What follows is the business's
+own public wording, presented as its claim.
 
 | Claim on page | Source | Handling |
 | --- | --- | --- |
-| "4.7" | Magicpin listing, observed during research | Large numeral |
-| "598 online ratings on Magicpin" | Magicpin listing | Attributed in the text, and the link points at the Magicpin listing |
-| "Third-party rating observed during concept research. Verify current listing before official launch." | Our own qualification | Visible beside the rating |
+| "Certified car detailer" | The studio's own Instagram profile | Quoted self-description; no certifying body is named or implied |
+| "PPF, ceramic coating, detailing, sunfilms" | The studio's own Instagram profile | Quoted self-description; "sunfilms" is not added to the four service categories |
+| "1000+ customers trusted us with PPF" | The studio's own Instagram profile | Quoted self-description; the studio's figure, not an independently verified one |
+| "@morphedetailingstudio" (linked) | The studio's Instagram profile | The visible attribution, linked to the profile the claims come from |
+| "Published by the studio on its own Instagram profile. This is how Morphed describes itself — not an independent review, rating or verified figure." | Our own qualification | Rendered at 0.82rem in `--ink-dim`, directly beneath the claims |
+| Eyebrow: "04 / In the studio's own words" | — | Frames the section as self-description before the claims are read |
 
-Never described as a Google rating. No individual review is quoted.
+Handling notes:
+
+- The claims are set in body-scale display type on a ruled index, **not** in the
+  large-numeral treatment the rating used. That styling reads as an independent
+  credential, which is exactly what these are not.
+- "Certified" is the studio's word, exempted from the banned-language scan only
+  inside this attributed block. The same word anywhere else on the page fails
+  the QA suite.
+- No individual review is quoted. No rating, score, star count or review total
+  appears anywhere.
 
 ## Gallery
 
@@ -113,11 +133,14 @@ This build contains **no invented**:
 - warranties, guarantees, lifetime claims, self-healing or scratch-proof claims
 - film thickness, durability, or hydrophobic-performance statistics
 - testimonials, review quotations, client names or customer identities
+- third-party ratings, scores, star counts or review totals
 - before-and-after claims or imagery
 - awards or certifications
 - owner, founder, team-member, technician or spokesperson identity or biography
 - business history, years in operation, or opening hours
-- statistics of any kind, including vehicles completed or customer totals
+- statistics of our own, including vehicles completed or customer totals
+  (the "1000+ customers" figure is the studio's own attributed claim, quoted
+  from its Instagram profile, and is presented as such)
 - Google ratings
 - service turnaround times, free extras or complimentary services
 

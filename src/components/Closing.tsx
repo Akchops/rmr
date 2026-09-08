@@ -19,12 +19,12 @@ export default function Closing() {
           <p className="eyebrow">
             <span className="on">06</span> / Bengaluru
           </p>
-          <h2 className="h-xl close-title">
+          <h2 className="h-xl close-title" data-reveal="rise">
             Ready to protect
             <br />
             what you drive?
           </h2>
-          <div className="close-cta" data-cta-anchor>
+          <div className="close-cta" data-cta-anchor data-reveal="lift">
             <a className="btn btn-primary" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
               <span>Protect My Vehicle</span>
               <span className="btn-arrow" aria-hidden="true">→</span>

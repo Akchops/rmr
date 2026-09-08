@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap } from '../lib/gsap';
+import { gsap, ScrollTrigger } from '../lib/gsap';
 import { useReducedMotion } from '../lib/hooks';
 import { WHATSAPP } from '../data/site';
 import './Hero.css';
@@ -73,6 +73,16 @@ export default function Hero() {
           0.82
         )
         .fromTo('[data-anim="meta"]', { opacity: 0 }, { opacity: 1, duration: 0.7 }, 1);
+
+      // Scrolling back to the top plays the opening again. The restart fires
+      // once the hero is about half visible, so the sequence is on screen for
+      // it rather than running behind the fold.
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top top',
+        end: 'center top',
+        onEnterBack: () => tl.restart(),
+      });
     }, el);
 
     return () => ctx.revert();

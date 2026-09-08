@@ -17,15 +17,15 @@ export default function Contact() {
           <p className="eyebrow">
             <span className="on">05</span> / Location + contact
           </p>
-          <h2 className="h-lg contact-title">Morphed Detailing Studio</h2>
+          <h2 className="h-lg contact-title" data-reveal="rise">Morphed Detailing Studio</h2>
 
-          <address className="contact-address">
+          <address className="contact-address" data-reveal="lift">
             {ADDRESS_LINES.map((l) => (
               <span key={l}>{l}</span>
             ))}
           </address>
 
-          <dl className="contact-list">
+          <dl className="contact-list" data-reveal="stagger">
             <div>
               <dt className="tech">Phone / WhatsApp</dt>
               <dd>
@@ -48,7 +48,7 @@ export default function Contact() {
             </div>
           </dl>
 
-          <div className="contact-actions" data-cta-anchor>
+          <div className="contact-actions" data-cta-anchor data-reveal="lift">
             <a className="btn btn-primary" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
               <span>Protect My Vehicle</span>
               <span className="btn-arrow" aria-hidden="true">→</span>

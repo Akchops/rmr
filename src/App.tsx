@@ -10,13 +10,23 @@ import Contact from './components/Contact';
 import Closing from './components/Closing';
 import StickyCta from './components/StickyCta';
 import { ScrollTrigger } from './lib/gsap';
+import { initReveals } from './lib/reveal';
+import { useReducedMotion } from './lib/hooks';
 
 export default function App() {
-  // Images finishing late change section heights; refresh pinned measurements
-  // once the page has settled rather than trusting first layout.
+  const reduced = useReducedMotion();
+
+  // Scroll reveals replay on every pass; see src/lib/reveal.ts.
+  useEffect(() => initReveals(reduced), [reduced]);
+
+  // Images and webfonts finishing late change section heights, which would
+  // leave every trigger measured against a stale layout — and a reveal whose
+  // range is wrong can strand its element in the hidden from-state. Refresh
+  // once the page has actually settled rather than trusting first layout.
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener('load', refresh);
+    document.fonts?.ready.then(refresh);
     const t = window.setTimeout(refresh, 900);
     return () => {
       window.removeEventListener('load', refresh);

@@ -35,7 +35,7 @@ export default function Services() {
 
   return (
     <section className="svc" id="services">
-      <div className="shell svc-head">
+      <div className="shell svc-head" data-reveal="rise">
         <p className="eyebrow">
           <span className="on">02</span> / Service system
         </p>
@@ -49,6 +49,7 @@ export default function Services() {
       <div className="shell svc-grid">
         <div
           className="svc-list"
+          data-reveal="stagger"
           role="tablist"
           aria-orientation="vertical"
           aria-label="Services"
@@ -102,7 +103,7 @@ export default function Services() {
           </span>
         </div>
 
-        <div className="svc-detail">
+        <div className="svc-detail" data-reveal="lift">
           {SERVICES.map((s, i) => (
             <div
               key={s.n}

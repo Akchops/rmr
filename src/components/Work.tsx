@@ -33,6 +33,9 @@ export default function Work() {
           scrub: 0.5,
           invalidateOnRefresh: true,
           anticipatePin: 1,
+          // Second pin on the page; refreshes after the PPF pin above it and
+          // before the reveals below. See the note in PpfReveal.tsx.
+          refreshPriority: 1,
         },
       });
     }, el);
@@ -69,7 +72,7 @@ export default function Work() {
 
   return (
     <section className="work" id="work" ref={section}>
-      <div className="shell work-head">
+      <div className="shell work-head" data-reveal="rise">
         <p className="eyebrow">
           <span className="on">03</span> / Recent work — asset slots
         </p>

@@ -19,7 +19,7 @@ export default function Signal() {
   return (
     <section className="signal" id="studio">
       <div className="shell signal-grid">
-        <div className="signal-media">
+        <div className="signal-media" data-reveal="wipe">
           <img
             src="/assets/signal-surface-1000.webp"
             srcSet="/assets/signal-surface-640.webp 640w, /assets/signal-surface-1000.webp 1000w, /assets/signal-surface.webp 1600w"
@@ -37,7 +37,7 @@ export default function Signal() {
             <span className="on">04</span> / In the studio&rsquo;s own words
           </p>
 
-          <ul className="claims">
+          <ul className="claims" data-reveal="stagger">
             {SELF_CLAIMS.items.map((c) => (
               <li className="claim" key={c.n}>
                 <span className="claim-n" aria-hidden="true">
@@ -48,7 +48,7 @@ export default function Signal() {
             ))}
           </ul>
 
-          <p className="claims-src">
+          <p className="claims-src" data-reveal="lift">
             <a
               className="claims-link"
               href={SELF_CLAIMS.href}
@@ -64,7 +64,7 @@ export default function Signal() {
             <span className="claims-note">{SELF_CLAIMS.attribution}</span>
           </p>
 
-          <h2 className="h-lg signal-title">
+          <h2 className="h-lg signal-title" data-reveal="rise">
             Your vehicle.
             <br />
             The right protection
@@ -72,7 +72,7 @@ export default function Signal() {
             conversation.
           </h2>
 
-          <p className="lede signal-lede">
+          <p className="lede signal-lede" data-reveal="lift">
             Tell Morphed what you drive and what you want to protect. The studio can discuss the
             available service options for your vehicle.
           </p>

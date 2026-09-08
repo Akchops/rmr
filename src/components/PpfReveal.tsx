@@ -89,6 +89,13 @@ export default function PpfReveal() {
         pinSpacing: true,
         scrub: 0.6,
         anticipatePin: 1,
+        // Highest priority on the page: this pin inserts ~1.4-1.9 viewports of
+        // spacer, and every trigger below it measures against that. Without an
+        // explicit order the pin can recalculate last — it is torn down and
+        // rebuilt when the viewport media query resolves after mount — leaving
+        // the reveals below it measured against a page short by the spacer,
+        // which strands them in their hidden from-state.
+        refreshPriority: 2,
         onUpdate: (self) => {
           const p = self.progress;
           setProgress(p);
@@ -100,7 +107,9 @@ export default function PpfReveal() {
         onToggle: (self) => sceneRef.current?.setActive(self.isActive),
       });
 
-      // Copy and labels move against the pinned surface.
+      // Copy and labels move against the pinned surface. Triggered off the
+      // section rather than the copy itself, which is pinned and therefore
+      // reports a fixed position ScrollTrigger cannot measure against.
       gsap.fromTo(
         '.ppf-copy',
         { opacity: 0, y: 26 },
@@ -109,7 +118,14 @@ export default function PpfReveal() {
           y: 0,
           duration: 0.8,
           ease: 'expo.out',
-          scrollTrigger: { trigger: el, start: 'top 65%' },
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 65%',
+            end: 'bottom top',
+            // Replays whenever the section is entered again, from either
+            // direction, instead of firing once on the first pass.
+            toggleActions: 'restart reset restart reset',
+          },
         }
       );
 
